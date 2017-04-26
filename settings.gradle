@@ -1,0 +1,4 @@
+rootProject.name = 'config-demo'
+
+include 'consul-client', 'service-one', 'consul-client-two', 'git2consul'
+

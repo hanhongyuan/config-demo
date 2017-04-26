@@ -1,0 +1,12 @@
+endpoints:
+  sensitive: false
+spring:
+  application:
+    name: consul-client
+  profiles:
+    include: staging
+  cloud:
+    consul:
+      discovery:
+        tags: tag=bar_tag, baz_tag
+        instanceId: ${spring.application.name}:${random.value}

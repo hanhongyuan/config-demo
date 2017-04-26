@@ -1,0 +1,40 @@
+version: '3.1'
+services:
+  consul:
+    image: consul
+    deploy:
+      restart_policy:
+        condition: none  #we do not want this to be restarted on timeout (see entrypoint options below)
+      replicas: 1
+    container_name: consul
+    environment:
+      - "CONSUL_LOCAL_CONFIG={\"disable_update_check\": true}"
+      - "CONSUL_BIND_INTERFACE=eth0"
+      - "CONSUL_HTTP_ADDR=0.0.0.0"
+    entrypoint:
+      - consul
+      - agent
+      - -server
+      - -data-dir=/tmp/consuldata
+      - -bootstrap-expect=1
+#      - -bind={{ GetInterfaceIP "eth0" }}
+      - -bind=127.0.0.1
+      - -client=0.0.0.0
+      - -ui
+    ports:
+      - "8500:8500"
+      - "8600:8600"
+
+  git2consul:
+    container_name: git2consul
+    image: cimpress/git2consul
+    environment:
+      - CONSUL_ENDPOINT=consul
+      - CONSUL_PORT=8500
+    volumes:
+       - ./git2consul.json:/etc/git2consul.d/config.json
+    command: --config-file /etc/git2consul.d/config.json
+    links:
+      - consul
+    depends_on:
+      - consul

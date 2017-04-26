@@ -1,0 +1,11 @@
+server:
+  port: 8082
+endpoints:
+  sensitive: false
+  spring:
+
+spring:
+  cloud:
+    consul:
+      discovery:
+        tags: tag=bar_tag, baz_tag

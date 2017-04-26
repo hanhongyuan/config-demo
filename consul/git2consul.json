@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "max_sockets": 1,
+  "repos" : [{
+    "name" : "config",
+    "url" : "https://github.com/sahkaa/config-demo.git",
+    "branches" : ["master"],
+    "mountpoint": "config",
+    "source_root": "consul/config",
+    "include_branch_name": false,
+    "ignore_repo_name" : true,
+    "hooks": [{
+      "type" : "polling",
+      "interval" : "1"
+    }]
+  }]
+}

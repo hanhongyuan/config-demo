@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+
+    ext {
+        versions = [
+                springBootVersion      : '1.5.3.RELEASE',
+                springCloudDependencies: 'Dalston.RELEASE',
+                springCloudConsul      : "1.2.0.RELEASE",
+                junit                  : 4.12
+        ]
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${versions.springBootVersion}")
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: "io.spring.dependency-management"
+    sourceCompatibility = 1.8
+    group 'io.sahka'
+    version = '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency group: 'junit', name: 'junit', version: "${versions.junit}"
+        }
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${versions.springBootVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions.springCloudDependencies}"
+            mavenBom "org.springframework.cloud:spring-cloud-consul-dependencies:${versions.springCloudConsul}"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+server:
+  port: 8081
+endpoints:
+  sensitive: false
+spring:
+  profiles:
+    active: dev
+    include: dev
+  application:
+    name: consul-client
+  cloud:
+    consul:
+      discovery:
+        instanceId: ${spring.application.name}:${random.value}
+        tags: tag=bar_tag_two, baz_tag_two
